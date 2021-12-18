@@ -1,26 +1,16 @@
 flintstones = %w(Fred Barney Wilma Betty BamBam Pebbles)
 
-def find_index_of_be(array_of_strings)
+def index_of_word_that_starts_with_Be(array_of_words)
   counter = 0
 
-  loop do
-    break if counter == array_of_strings.length
-
-    if array_of_strings[counter].start_with?("Be")
-      break
-    end
-
+  while counter < array_of_words.size
+    word = array_of_words[counter]
+    return counter if word.start_with?("Be")
     counter += 1
   end
-
-  counter
+  nil
 end
 
-index = find_index_of_be flintstones
-puts index
-
-index = flintstones.index do |name|
-  name.start_with?("Be")
-end
+index = index_of_word_that_starts_with_Be(flintstones)
 
 puts index

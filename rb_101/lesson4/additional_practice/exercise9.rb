@@ -1,7 +1,5 @@
-def titleize(string)
-  string.split(" ").map do |word|
-    word.capitalize
-  end.join(" ")
+def titleize(words)
+  words.split(' ').map { |word| word.capitalize }.join(' ')
 end
 
 p titleize "the cat" # => "The Cat"

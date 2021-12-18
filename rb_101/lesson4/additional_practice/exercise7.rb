@@ -1,13 +1,13 @@
 statement = "The Flintstones Rock"
 
-hash = {}
-
-for letter in statement.delete(" ").chars
-  if hash.keys.include?(letter)
-    hash[letter] += 1
+hash = statement.chars.each_with_object({}) do |char, hash|
+  if hash[char]
+    hash[char] += 1
   else
-    hash[letter] = 1
+    hash[char] = 1
   end
 end
+
+hash.delete(' ')
 
 p hash

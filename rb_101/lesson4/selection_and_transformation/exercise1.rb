@@ -1,11 +1,11 @@
 def select_fruit(produce)
-  return_hash = {}
-  for key in produce.keys do
+  selected_produce = {}
+  produce.keys.each do |key|
     if produce[key] == 'Fruit'
-      return_hash[key] = 'Fruit'
+      selected_produce[key] = 'Fruit'
     end
   end
-  return_hash
+  selected_produce
 end
 
 produce = {
