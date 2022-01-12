@@ -36,7 +36,7 @@ class RPSGame
       puts "Sorry, must be y or n."
     end
     return true if answer == 'y'
-    return false
+    false
   end
 
   def play
@@ -62,26 +62,25 @@ end
 class Human < Player
   def set_name
     n = ""
-      loop do
-        puts "What's your name?"
-        n = gets.chomp
-        break unless n.empty?
-        puts "Sorry, must enter a value."
-      end
-      self.name = n
+    loop do
+      puts "What's your name?"
+      n = gets.chomp
+      break unless n.empty?
+      puts "Sorry, must enter a value."
+    end
+    self.name = n
   end
 
   def choose
     choice = nil
-      loop do 
-        puts "Please choose rock, paper, or scissors:"
-        choice = gets.chomp
-        break if Move::VALUES.include? choice
-        puts "Sorry, invalid choice."
-      end
+    loop do
+      puts "Please choose rock, paper, or scissors:"
+      choice = gets.chomp
+      break if Move::VALUES.include? choice
+      puts "Sorry, invalid choice."
+    end
     self.move = Move.new(choice)
   end
-
 end
 
 class Computer < Player
@@ -116,33 +115,32 @@ class Move
   def >(other_move)
     if rock?
       return true if other_move.scissors?
-      return false
+      false
     elsif paper?
       return true if other_move.rock?
-      return false
+      false
     elsif scissors?
       return true if other_move.paper?
-      return false
+      false
     end
   end
-  
+
   def <(other_move)
     if rock?
       return true if other_move.paper?
-      return false
+      false
     elsif paper?
       return true if other_move.scissors?
-      return false
+      false
     elsif scissors?
       return true if other_move.rock?
-      return false
+      false
     end
   end
 
   def to_s
     @value
   end
-
 end
 
 RPSGame.new.play
