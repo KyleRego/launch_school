@@ -74,9 +74,9 @@ class RPSGame
       adjust_score
       display_winner
       display_scores
-      break if human.score == SCORE_TO_WIN || 
-                computer.score == SCORE_TO_WIN ||
-                !play_again?
+      break if human.score == SCORE_TO_WIN ||
+               computer.score == SCORE_TO_WIN ||
+               !play_again?
     end
     display_final_winner
     display_goodbye_message
@@ -84,11 +84,26 @@ class RPSGame
 end
 
 class Player
-  attr_accessor :move, :name, :score
+  attr_accessor :name, :score, :move
 
   def initialize
     set_name
     @score = 0
+  end
+
+  def set_move(mv)
+    case mv
+    when 'rock'
+      self.move = Rock.new(mv)
+    when 'paper'
+      self.move = Paper.new(mv)
+    when 'scissors'
+      self.move = Scissors.new(mv)
+    when 'lizard'
+      self.move = Lizard.new(mv)
+    when 'spock'
+      self.move = Spock.new(mv)
+    end
   end
 end
 
@@ -112,7 +127,7 @@ class Human < Player
       break if Move::VALUES.include? choice
       puts "Sorry, invalid choice."
     end
-    self.move = Move.new(choice)
+    set_move(choice)
   end
 end
 
@@ -122,56 +137,98 @@ class Computer < Player
   end
 
   def choose
-    self.move = Move.new(Move::VALUES.sample)
+    mv = Move::VALUES.sample
+    set_move(mv)
   end
 end
 
 class Move
+  attr_reader :value
+  
   VALUES = ['rock', 'paper', 'scissors', 'lizard', 'spock']
 
   def initialize(value)
     @value = value
   end
 
-  def scissors?
-    @value == 'scissors'
-  end
-
-  def rock?
-    @value == 'rock'
-  end
-
-  def paper?
-    @value == 'paper'
-  end
-
-  def lizard?
-    @value == 'lizard'
-  end
-
-  def spock?
-    @value == 'spock'
-  end
-
-  def >(other_move)
-    (rock? && (other_move.scissors? || other_move.lizard?)) ||
-      (paper? && (other_move.rock? || other_move.spock?)) ||
-      (scissors? && (other_move.paper? || other_move.lizard?)) ||
-      (lizard? && (other_move.paper? || other_move.spock?)) ||
-      (spock? && (other_move.scissors? || other_move.rock?))
-  end
-
-  def <(other_move)
-    (rock? && (other_move.paper? || other_move.spock?)) ||
-      (paper? && (other_move.scissors? || other_move.lizard?)) ||
-      (scissors? && (other_move.rock? || other_move.spock?)) ||
-      (lizard? && (other_move.rock? || other_move.scissors?)) ||
-      (spock? && (other_move.paper? || other_move.lizard?))
-  end
-
   def to_s
     @value
   end
+end
+
+module MoveComparable
+  def >(other_move)
+    self.wins_against.include?(other_move.value)
+  end
+
+  def <(other_move)
+    self.loses_to.include?(other_move.value)
+  end
+end
+
+class Rock < Move
+  include MoveComparable
+
+  def loses_to
+    ['paper', 'spock']
+  end
+
+  def wins_against
+    ['scissors', 'spock']
+  end
+
+end
+
+class Paper < Move
+  include MoveComparable
+
+  def loses_to
+    ['scissors', 'lizard']
+  end
+
+  def wins_against
+    ['rock', 'spock']
+  end
+
+end
+
+class Scissors < Move
+  include MoveComparable
+
+  def loses_to
+    ['rock', 'spock']
+  end
+
+  def wins_against
+    ['paper', 'lizard']
+  end
+
+end
+
+class Lizard < Move
+  include MoveComparable
+
+  def loses_to
+    ['scissors', 'rock']
+  end
+
+  def wins_against
+    ['paper', 'spock']
+  end
+
+end
+
+class Spock < Move
+  include MoveComparable
+
+  def loses_to
+    ['paper', 'lizard']
+  end
+
+  def wins_against
+    ['rock', 'scissors']
+  end
+
 end
 
 RPSGame.new.play
