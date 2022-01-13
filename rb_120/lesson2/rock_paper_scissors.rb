@@ -14,6 +14,7 @@ class RPSGame
   end
 
   def display_goodbye_message
+    display_final_winner
     puts "Thanks for playing Rock, Paper, Scissors. Good bye!"
   end
 
@@ -78,7 +79,6 @@ class RPSGame
                computer.score == SCORE_TO_WIN ||
                !play_again?
     end
-    display_final_winner
     display_goodbye_message
   end
 end
@@ -91,7 +91,7 @@ class Player
     @score = 0
   end
 
-  def set_move(mv)
+  def assign_move(mv)
     case mv
     when 'rock'
       self.move = Rock.new(mv)
@@ -127,7 +127,7 @@ class Human < Player
       break if Move::VALUES.include? choice
       puts "Sorry, invalid choice."
     end
-    set_move(choice)
+    assign_move(choice)
   end
 end
 
@@ -138,13 +138,13 @@ class Computer < Player
 
   def choose
     mv = Move::VALUES.sample
-    set_move(mv)
+    assign_move(mv)
   end
 end
 
 class Move
   attr_reader :value
-  
+
   VALUES = ['rock', 'paper', 'scissors', 'lizard', 'spock']
 
   def initialize(value)
@@ -158,11 +158,11 @@ end
 
 module MoveComparable
   def >(other_move)
-    self.wins_against.include?(other_move.value)
+    wins_against.include?(other_move.value)
   end
 
   def <(other_move)
-    self.loses_to.include?(other_move.value)
+    loses_to.include?(other_move.value)
   end
 end
 
@@ -176,7 +176,6 @@ class Rock < Move
   def wins_against
     ['scissors', 'spock']
   end
-
 end
 
 class Paper < Move
@@ -189,7 +188,6 @@ class Paper < Move
   def wins_against
     ['rock', 'spock']
   end
-
 end
 
 class Scissors < Move
@@ -202,7 +200,6 @@ class Scissors < Move
   def wins_against
     ['paper', 'lizard']
   end
-
 end
 
 class Lizard < Move
@@ -215,7 +212,6 @@ class Lizard < Move
   def wins_against
     ['paper', 'spock']
   end
-
 end
 
 class Spock < Move
@@ -228,7 +224,6 @@ class Spock < Move
   def wins_against
     ['rock', 'scissors']
   end
-
 end
 
 RPSGame.new.play
