@@ -1,12 +1,32 @@
 class RPSGame
-  attr_accessor :human, :computer
+  attr_accessor :human, :computer, :game_history
 
   SCORE_TO_WIN = 3
 
   def initialize
     @human = Human.new
     @computer = Computer.new
+    @game_history = GameHistory.new
   end
+
+  def play
+    display_welcome_message
+    loop do
+      human.choose
+      computer.choose
+      display_moves
+      adjust_score
+      adjust_game_history
+      display_winner
+      display_scores
+      break if human.score == SCORE_TO_WIN ||
+               computer.score == SCORE_TO_WIN ||
+               !play_again?
+    end
+    display_goodbye_message
+  end
+
+  private
 
   def display_welcome_message
     puts "Welcome to Rock, Paper, Scissors!"
@@ -14,6 +34,7 @@ class RPSGame
   end
 
   def display_goodbye_message
+    game_history.display
     display_final_winner
     puts "Thanks for playing Rock, Paper, Scissors. Good bye!"
   end
@@ -66,20 +87,24 @@ class RPSGame
     false
   end
 
-  def play
-    display_welcome_message
-    loop do
-      human.choose
-      computer.choose
-      display_moves
-      adjust_score
-      display_winner
-      display_scores
-      break if human.score == SCORE_TO_WIN ||
-               computer.score == SCORE_TO_WIN ||
-               !play_again?
+  def adjust_game_history
+    game_history.history << [human.move, computer.move]
+  end
+end
+
+class GameHistory
+  attr_accessor :history
+
+  def initialize
+    @history = []
+  end
+
+  def display
+    puts "Game history:"
+    history.each_with_index do |array, index|
+      puts "Round #{index}:"
+      puts "Player chose: #{array[0]}, computer chose: #{array[1]}"
     end
-    display_goodbye_message
   end
 end
 
@@ -137,7 +162,14 @@ class Computer < Player
   end
 
   def choose
+    case name
+    when 'R2D2'
+      mv = 'rock'
+    when 'Hal'
+      mv = 'spock'
+    else
     mv = Move::VALUES.sample
+    end
     assign_move(mv)
   end
 end
@@ -174,7 +206,7 @@ class Rock < Move
   end
 
   def wins_against
-    ['scissors', 'spock']
+    ['scissors', 'lizard']
   end
 end
 
