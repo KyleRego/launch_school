@@ -1,9 +1,7 @@
-require 'pry'
-
 class Board
   WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9],
-                  [1, 4, 7], [2, 5, 8], [3, 6, 9],
-                  [1, 5, 9], [3, 5, 7]]
+                   [1, 4, 7], [2, 5, 8], [3, 6, 9],
+                   [1, 5, 9], [3, 5, 7]]
 
   def initialize
     @squares = {}
@@ -49,13 +47,15 @@ class Board
         return three_squares.first.marker
       end
     end
-    nil   
+    nil
   end
 
   def reset
     (1..9).each { |key| @squares[key] = Square.new }
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def draw
     puts "     |     |"
     puts "  #{@squares[1]}  |  #{@squares[2]}  |  #{@squares[3]}"
@@ -69,6 +69,8 @@ class Board
     puts "  #{@squares[7]}  |  #{@squares[8]}  |  #{@squares[9]}"
     puts "     |     |"
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 end
 
 class Square
@@ -117,7 +119,7 @@ class TTTGame
     puts "Welcome to Tic Tac Toe"
     puts ""
   end
-  
+
   def display_goodbye_message
     puts "Thanks for playing Tic Tac Toe! Goodbye"
   end
@@ -142,13 +144,13 @@ class TTTGame
     end
     switch_current_player
   end
-  
+
   def switch_current_player
-    if current_player == human
-      self.current_player = computer
-    else
-      self.current_player = human
-    end
+    self.current_player = if current_player == human
+                            computer
+                          else
+                            human
+                          end
   end
 
   def human_moves
@@ -198,7 +200,7 @@ class TTTGame
   def reset
     board.reset
     clear
-    current_player = human
+    self.current_player = human
   end
 
   def display_play_again_message
@@ -206,26 +208,32 @@ class TTTGame
     puts ''
   end
 
-  public
+  def player_move
+    loop do
+      current_player_moves
+      break if board.someone_won? || board.full?
+      clear_screen_and_display_board
+    end
+  end
 
-  def play
-    clear
-    display_welcome_message
-
+  def main_game
     loop do
       display_board
-
-      loop do
-        current_player_moves
-        break if board.someone_won? || board.full?
-
-        clear_screen_and_display_board
-      end
+      player_move
+      
       display_result
       break unless play_again?
       reset
       display_play_again_message
     end
+  end
+
+  public
+
+  def play
+    clear
+    display_welcome_message
+    main_game
     display_goodbye_message
   end
 end
