@@ -1,18 +1,23 @@
-def increment(number)
-  if block_given?
-    yield(number + 1)
-  end
-  number + 1
+def a_method_with_yield
+  yield
+  puts "Output from a_method_with_yield"
 end
 
-increment(5) do |num|
-  puts num
+begin
+  a_method_with_yield
+rescue LocalJumpError
+  puts 'A LocalJumpError was thrown'
 end
 
-def test
-  yield(1)
+def a_method_with_yield_2
+  yield if block_given?
+  puts "Output from a_method_with_yield_2"
 end
 
-test do |num1, num2|
-  puts "#{num1} #{num2}"
+a_method_with_yield_2
+
+def a_method_with_yield_3
+  yield('hello world')
 end
+
+a_method_with_yield_3 { |block_local_variable| puts block_local_variable }
