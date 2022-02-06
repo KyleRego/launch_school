@@ -163,4 +163,45 @@ class TodoListTest < MiniTest::Test
     new_todos = @list.select { |todo| todo.done? }
     assert_equal(TodoList, new_todos.class)
   end
+
+  def test_find_by_title
+    should_be_nil = @list.find_by_title("no todo with this title")
+    assert_nil(should_be_nil)
+    todo = @list.find_by_title("Buy milk")
+    assert_equal(@todo1, todo)
+  end
+
+  def test_all_done
+    done_todos = @list.all_done
+    assert_equal([], done_todos.to_a)
+
+    @todo1.done!
+    done_todos = @list.all_done
+    assert_equal([@todo1], done_todos.to_a)
+  end
+
+  def test_all_not_done
+    not_done_todos = @list.all_not_done
+    assert_equal(@todos, not_done_todos.to_a)
+  end
+
+  def test_mark_done
+    assert_nil(@list.mark_done("No todo with this title"))
+
+    @list.mark_done("Buy milk")
+    assert_equal(true, @todo1.done?)
+  end
+
+  def test_mark_all_done
+    assert_equal([], @list.all_done.to_a)
+    @list.mark_all_done
+    assert_equal(@todos, @list.all_done.to_a)
+  end
+
+  def test_mark_all_undone
+    @todo1.done!
+    @todo2.done!
+    @list.mark_all_undone
+    assert_equal(@todos, @list.all_not_done.to_a)
+  end
 end

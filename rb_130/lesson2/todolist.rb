@@ -119,4 +119,29 @@ class TodoList
     return_todos
   end
 
+  def find_by_title(string)
+    todo_list = select { |todo| todo.title == string }
+    todo_list.first
+  end
+
+  def all_done
+    select { |todo| todo.done? }
+  end
+
+  def all_not_done
+    select { |todo| !todo.done? }
+  end
+
+  def mark_done(string)
+    todo = find_by_title(string)
+    todo.done! if todo
+  end
+
+  def mark_all_done
+    each { |todo| todo.done! }
+  end
+
+  def mark_all_undone
+    each { |todo| todo.undone! }
+  end
 end
