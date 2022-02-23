@@ -46,8 +46,29 @@ HTTP is the protocol which defines the message format of the web. HTTP messages 
 
 TCP provides the abstraction of reliable network communication over an unreliable channel. TCP is connection-oriented: this means that application data is not snet until a connection has been established between processes. The connection is established via the **TCP three-way handshake**. The three-way handshake introduces an entire round-trip of latency. TCP also ensures data is delivered in the correct order. This introduces the possibility of **head-of-line blocking**, where if the first message in a sequence of messages does not arrive, the processing of subsequent messages in the sequence is delayed.
 
-TCP also provides mechanisms for flow control and congestion avoidance. Flow control prevents the sender from overwhelming the receiver with too much data at once. Each side of the connection lets the other side know how much data it is willing to accept, and this number may be updated. Congestion avoidance helps prevent overwhelming the underlying network with too much data. TCP interprets packets being dropped as the network being congested responds by reducing the amount of data sent. 
+TCP also provides mechanisms for flow control and congestion avoidance. **Flow control** prevents the sender from overwhelming the receiver with too much data at once. Each side of the connection lets the other side know how much data it is willing to accept, and this number may be updated. **Congestion avoidance** helps prevent overwhelming the underlying network with too much data. TCP interprets packets being dropped as the network being congested responds by reducing the amount of data sent. 
 
-UDP provides multiplexing in the same way that TCP does. However, UDP does not guarantee message delivery or message delivery in order like TCP does. UDP also does not have mechanisms for flow control or congestion avoidance. UDP is a connectionless protocol. 
+UDP provides multiplexing in the same way that TCP does. However in contrast to TCP:
+- UDP is connectionless
+- UDP oes not guarantee message delivery or message delivery in order
+- UDP also does not have mechanisms for flow control or congestion avoidance
 
 UDP's advantage over TCP is its simplicity, which provides speed and flexibility.
+
+## "State" in the context of the web
+
+The HTTP protocol is stateless, meaning each request/response pair is completely independent of the previous one and the server does not hang on to information about previous request/response cycles. However, it is common for web applications to feel "stateful" in that you can log in to the website and perform some actions without being logged out. One way this can be accomplished is by passing back and forth a **session identifier** which is a unique token to the client. Usually the session id is a random string and comes in the form of a browser cookie.
+
+A **cookie** is a small file sent from the server during a request/response cycle and stored in the browser. The server may store information about the current session on its side, and then compare session information from the cookie with the server's session data to identify the current session. 
+
+**AJAX** is another technique involved in designing stateful web applications and allows the browser to issue requests and process responses without a full page refresh (which is termed asynchronous). This means that an action can be performed by the user and the page can be updated without having to refresh the entire page.
+
+## Security and HTTP
+
+HTTPS encrypts every request/response using TLS before transporting the message over the network so that even if a malicious user intercepted the message, they would not be able to do anything with the information.
+
+The **same-origin policy** restricts certain interactions between resources originating from different origins. Typically it is cross-origin requests where resources are being accessed programmtically using APIs such as `fetch`. **CORS** is a HTTP header-based mechanism that allows interactions that would normally be restricted by the same-origin policy.
+
+**Session hijacking** occurs when a malicious user shares the same session as the user by having gained access to the session id. This allows the malicious user to log in as the user without knowing their username and password. Some countermeasures are resetting sessions (a successful login renders an old session id invalid and creates a new one; websites may require users to login when entering sensitive areas), expiring sessions after a certain amount of time, and using HTTPS across the entire app.
+
+**Cross-site scripting** or **XSS** can occur if a website allows a user to input HTML or JavaScript that is directly displayed by the site. If the input is not sanitized and is allowed to be injected into the page content, the browser will interpret the HTML and JavaScript and execute it. Countermeasures include sanitizing user input and escaping user input data when displaying it.
