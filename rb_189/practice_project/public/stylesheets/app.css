@@ -1,0 +1,36 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: lightskyblue;
+}
+
+main {
+    padding: 1rem;
+}
+
+h1 {
+    font-size: 2rem;
+    padding-bottom: 1rem;
+}
+
+label {
+    display: block;
+}
+
+input {
+    display: block;
+}
+
+.flash {
+    padding: 1rem;
+    font-weight: bold;
+}
+
+.error {
+    background-color: rgb(255, 100, 100);
+}
+
+.success {
+    background-color: greenyellow;
+}

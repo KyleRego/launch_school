@@ -1,0 +1,11 @@
+<a href="/">Back</a>
+<h1>
+  Edit post:
+</h1>
+<form action="/posts/<%= @post[:id] %>/edit" method="post">
+  <label for="title">Title:</label>
+  <input id="title" name="title" value="<%= @post[:title] %>">
+  <label for="content">Content:</label>
+  <textarea id="content" name="content"><%= @post[:content] %></textarea>
+  <button type="submit">Submit</button>
+</form>

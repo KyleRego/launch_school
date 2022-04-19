@@ -1,0 +1,22 @@
+<a href="/">Back</a>
+<h2>
+  <%= @post[:title] %>
+  <a href="/posts/<%= @post[:id] %>/edit">Edit post</a>
+</h2>
+<p>
+  <%= @post[:content] %>
+</p>
+<% if @comments.length > 0 %>
+  <h2>Comments:</h2>
+<% end %>
+<% @comments.each do |comment| %>
+  <%= comment[:content] %>
+<% end %>
+<h2>
+  Leave a comment:
+</h2>
+<form action="/posts/<%= @post[:id] %>/comments" method="post">
+  <label for="content">Content:</label>
+  <textarea id="content" name="content"></textarea>
+  <button type="submit">Submit</button>
+</form>

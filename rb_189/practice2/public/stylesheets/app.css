@@ -1,0 +1,33 @@
+header {
+    background-color: lightslategray;
+    color: chartreuse;
+
+    padding: 1rem;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+
+main {
+    padding: 1rem;
+}
+
+label {
+    display: block;
+}
+
+button {
+    display: block;
+}
+
+textarea {
+    width: 250px;
+    height: 150px;
+}
