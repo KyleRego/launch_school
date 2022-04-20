@@ -1,0 +1,46 @@
+.app-header {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 1rem;
+
+    background-color: lightskyblue;
+}
+
+/* Classes related to the flash messages */
+.flash {
+    padding: 0.75rem;
+    border: 1px solid black;
+}
+.success {
+    background-color: rgb(148, 218, 45);
+}
+.error {
+    background-color: rgb(255, 110, 110);
+}
+
+/* Element selectors */
+main {
+    padding: 1rem;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+}
+input {
+    display: block;
+}
+button {
+    display: block;
+}
+
+/* Related to posts index */
+.index-posts-paragraph {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid black;
+}

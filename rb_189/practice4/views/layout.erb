@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Project 4</title>
+  <link rel="stylesheet" href="/stylesheets/reset.css">
+  <link rel="stylesheet" href="/stylesheets/app.css">
+</head>
+<body>
+  <header class="app-header">
+    <span>
+      Practice Project 4
+    </span>
+    <% if logged_in? %>
+      <span>
+        <a href="/logout">Log out</a>
+      </span>
+    <% else %>
+      <span>
+        <a href="/login">Log in</a>
+        <a href="/signup">Sign up</a>
+      </span>
+    <% end %>
+  </header>
+  <% if session[:success] %>
+    <div class="flash success">
+      <%= session.delete(:success) %>
+    </div>
+  <% elsif session[:error] %>
+    <div class="flash error">
+      <%= session.delete(:error) %>
+    </div>
+  <% end %>
+  <main>
+    <%= yield %>
+  </main>  
+</body>
+</html>

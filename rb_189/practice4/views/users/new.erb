@@ -1,0 +1,12 @@
+<h1>
+  Sign up:
+</h1>
+<form action="/users/new" method="post">
+  <label for="username">Username:</label>
+  <input id="username" name="username" value="<%= @username %>">
+  <label for="password">Password:</label>
+  <input id="password" name="password" type="password">
+  <label for="confirmation">Password confirmation:</label>
+  <input id="confirmation" name="confirmation" type="password">
+  <button type="submit">Submit</button>
+</form>

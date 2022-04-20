@@ -1,0 +1,10 @@
+<% @posts.each do |post| %>
+  <h1>
+    <%= post[:title] %>
+  </h1>
+  <p class="index-posts-paragraph">
+    <%= post[:content] %>
+    <a href="/posts/<%= post[:id] %>/edit">Edit</a>
+  </p>
+<% end %>
+<a href="/posts/new">New post</a>
