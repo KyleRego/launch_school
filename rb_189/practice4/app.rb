@@ -133,3 +133,30 @@ post '/posts/:post_id/edit' do
     redirect '/posts'
   end
 end
+
+get '/posts/:post_id' do
+  require_logged_in
+  @post = @storage.find_post_by_id(params[:post_id])
+  @comments = @storage.find_comments_by_post_id(params[:post_id])
+  erb :"posts/show"
+end
+
+get '/posts/:post_id/comments/new' do
+  require_logged_in
+  @post = @storage.find_post_by_id(params[:post_id])
+  erb :"comments/new"
+end
+
+post '/posts/:post_id/comments' do
+  require_logged_in
+  body = params[:body]
+  error = @storage.error_for_comment(body)
+  if error
+    session[:error] = error
+    erb :"comments/new"
+  else
+    @storage.create_comment(params[:post_id], body)
+    session[:success] = 'Comment successfully created.'
+    redirect "/posts/#{params[:post_id]}"
+  end
+end

@@ -1,6 +1,7 @@
 <% @posts.each do |post| %>
   <h1>
     <%= post[:title] %>
+    <a href="/posts/<%= post[:id] %>">Show</a>
   </h1>
   <p class="index-posts-paragraph">
     <%= post[:content] %>

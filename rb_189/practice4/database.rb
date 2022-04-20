@@ -76,7 +76,7 @@ class DatabasePersistence
   end
 
   def user_id_for_username(username)
-    sql = 'SELECT * FROM USERS WHERE username = $1;'
+    sql = 'SELECT * FROM users WHERE username = $1;'
     result = query sql, username
     result[0]["id"]
   end
@@ -89,5 +89,26 @@ class DatabasePersistence
   def edit_post(post_id, title, content)
     sql = 'UPDATE posts SET (title, content) = ($1, $2) WHERE id = $3;'
     query sql, title, content, post_id
+  end
+
+  def error_for_comment(body)
+    if !body || body.length == 0
+      "Comment must have a body."
+    end
+  end
+
+  def create_comment(post_id, body)
+    sql = 'INSERT INTO comments (post_id, body) VALUES ($1, $2);'
+    query sql, post_id, body
+  end
+
+  def find_comments_by_post_id(post_id)
+    sql = 'SELECT * FROM comments WHERE post_id = $1;'
+    result = query sql, post_id
+    comments = []
+    result.each do |tuple|
+      comments << { id: tuple["id"], body: tuple["body"] }
+    end
+    comments
   end
 end

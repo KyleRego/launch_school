@@ -1,0 +1,17 @@
+<h1>
+  <%= @post[:title] %>
+</h1>
+<p class="show-post-paragraph">
+  <%= @post[:content] %>
+</p>
+<h1>
+  Comments:
+</h1>
+<ul>
+  <% @comments.each do |comment| %>
+    <li>
+      <%= comment[:body] %>
+    </li>
+  <% end %>
+</ul>
+<a href="/posts/<%= @post[:id] %>/comments/new">New comment</a>
