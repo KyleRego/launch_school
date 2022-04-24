@@ -2,12 +2,13 @@ function translateLetterBy13(letter) {
 
   const translater = function(alphabet, letter) {
     const ALPHABET_LENGTH = alphabet.length;
+    const ROTATE_BY = 13;
     for (let i = 0; i < ALPHABET_LENGTH; i++) {
       if (alphabet[i] === letter) {
-        if ((ALPHABET_LENGTH - 1) < i + 13) {
-          return alphabet[i + 13 - ALPHABET_LENGTH];
+        if ((ALPHABET_LENGTH - 1) < i + ROTATE_BY) {
+          return alphabet[i + ROTATE_BY - ALPHABET_LENGTH];
         } else {
-          return alphabet[i + 13];
+          return alphabet[i + ROTATE_BY];
         }
       }
     }
