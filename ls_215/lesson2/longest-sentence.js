@@ -29,7 +29,7 @@ let longText = 'Four score and seven years ago our fathers brought forth' +
   ' earth.';
 
 function longestSentence(text) {
-  const SENTENCE_REGEX = /(((\w|-)+,?\s)+)?(\w+[.!?])/gi
+  const SENTENCE_REGEX = /(((\w|-)+(,|;)?\s)+)?(\w+[.!?])/gi
   const sortedSentences = text.match(SENTENCE_REGEX).sort((sentence1, sentence2) => {
     return sentence1.length - sentence2.length;
   })
