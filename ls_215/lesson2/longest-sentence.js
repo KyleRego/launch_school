@@ -28,6 +28,8 @@ let longText = 'Four score and seven years ago our fathers brought forth' +
   ' the people, for the people, shall not perish from the' +
   ' earth.';
 
+let anotherText = 'This is the longest, longest sentence of this text. This is a shorter sentence. This is another shorter sentence.'
+
 function longestSentence(text) {
   const SENTENCE_REGEX = /(((\w|-|')+(,|;)?\s)+)?(\w+[.!?])/gi;
   const sortedSentences = text.match(SENTENCE_REGEX).sort((sentence1, sentence2) => {
@@ -39,3 +41,4 @@ function longestSentence(text) {
 }
 
 longestSentence(longText);
+longestSentence(anotherText);
