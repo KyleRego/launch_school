@@ -1,6 +1,5 @@
-function myBind(func, context, ...bindArguments) {
+function myBind(func, context) {
   return function(...args) {
-    const fullArgs = bindArguments.concat(args);
-    return func.apply(context, fullArgs);
-  };
+    return func.apply(context, args);
+  }
 }

@@ -1,8 +1,8 @@
-function myFilter(array, func, context) {
+function myFilter(array, func, thisArg) {
   const result = [];
 
   array.forEach(value => {
-    if (func.call(context, value)) {
+    if (func.call(thisArg, value)) {
       result.push(value);
     }
   });
@@ -14,8 +14,6 @@ const filter = {
   allowedValues: [5, 6, 9],
 };
 
-console.log(
 myFilter([2, 1, 3, 4, 5, 6, 12], function(val) {
   return this.allowedValues.includes(val);
-}, filter) // returns [5, 6]
-);
+}, filter); // returns [5, 6]
